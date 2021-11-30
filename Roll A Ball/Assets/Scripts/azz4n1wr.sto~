@@ -1,0 +1,39 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class PlayerController : MonoBehaviour
+{
+    private Keyboard kb;
+    private Rigidbody rb;
+    private float movementX, movementY, speed = 10f;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        kb = InputSystem.GetDevice<Keyboard>();
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 direction = new Vector3(movementX, 0f, movementY);
+        rb.AddForce(direction * speed);
+
+        if (kb.jKey.wasPressedThisFrame)
+        {
+            rb.velocity = Vector3.up * 5f;
+            Debug.Log("J Key was pressed");
+        }
+    }
+
+    private void OnMove(InputValue movementValue)
+    {
+        Vector2 movementVector = movementValue.Get<Vector2>();
+        movementX = movementVector.x;
+        movementY = movementVector.y;
+    }
+}
